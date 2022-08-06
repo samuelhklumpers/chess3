@@ -1,12 +1,11 @@
 import json
+import sys
 
 from server.gameserver import thread_loop
 
-
-with open("server_config.json") as f:
-    config = json.load(f)
-
-port = config["port"]
-
+PORT = 8080
+if len(sys.argv) > 1:
+    PORT = int(sys.argv[1])
+    
 if __name__ == "__main__":
-    thread_loop(port)
+    thread_loop(PORT)
