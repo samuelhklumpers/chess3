@@ -2,9 +2,6 @@ import os
 
 import numpy as np
 
-from PIL import Image
-from PIL import ImageTk
-
 from structures.chess_structures import *
 from rules.rules import *
 from structures.structures import *
