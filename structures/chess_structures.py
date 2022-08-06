@@ -183,4 +183,4 @@ def search_valid(self, game: Chess, around):  # around must be tile_id
         self.success_indicator.unset()
 
 
-__all__ = ["PieceCounter", "NormalTile", "Piece", "MovedPiece", "Pawn", "Chess", "Board", "search_valid"]
+__all__ = ["NormalTile", "Piece", "MovedPiece", "Pawn", "Chess", "Board", "search_valid"]
