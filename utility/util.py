@@ -1,5 +1,6 @@
 import itertools as itr
 import numpy as np
+import json
 
 
 def grouper(iterable, n, fillvalue=None):
@@ -35,5 +36,19 @@ def unpack2ddr(args):
 
         return dx, dy
 
+def read_file(fn):
+    with open(fn, mode="r", encoding="utf-8") as f:
+        return f.read()
+        
+def write_file(fn, text):
+    with open(fn, mode="w", encoding="utf-8") as f:
+        f.write(text)
 
-__all__ = ["grouper", "xyiter", "unpack2ddr"]
+def jload(fn):
+    return json.loads(read_file(fn))
+
+def jdump(fn, x):
+    return write_file(fn, json.dumps(x, indent=4))
+
+
+__all__ = ["grouper", "xyiter", "unpack2ddr", "jload", "jdump"]

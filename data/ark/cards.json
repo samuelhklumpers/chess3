@@ -1,0 +1,91 @@
+{
+  "zachaer": {
+    "type": "unit",
+    "cost": 19,
+    "promotion_cost": 15,
+    "maxhp": 7,
+    "attack": 2,
+    "defence": 0,
+    "resist": 25,
+    "promoted_maxhp": 10,
+    "promoted_attack": 3,
+    "promoted_defence": 1,
+    "promoted_resist": 25,
+    "damage_type": "arts",
+    "position": "ranged",
+    "attack_type": "st",
+    "speed": 1
+  },
+
+  "zoncad": {
+    "type": "unit",
+    "cost": 14,
+    "promotion_cost": 20,
+    "maxhp": 12,
+    "attack": 2,
+    "defence": 1,
+    "resist": 0,
+    "promoted_maxhp": 14,
+    "promoted_attack": 3,
+    "promoted_defence": 2,
+    "promoted_resist": 0,
+    "damage_type": "phys",
+    "position": "melee",
+    "attack_type": "st",
+    "speed": 2
+  },
+
+  "yuh'ae": {
+    "type": "unit",
+    "cost": 18,
+    "promotion_cost": 16,
+    "maxhp": 6,
+    "attack": 3,
+    "defence": 0,
+    "resist": 33,
+    "promoted_maxhp": 7,
+    "promoted_attack": 5,
+    "promoted_defence": 0,
+    "promoted_resist": 33,
+    "damage_type": "arts",
+    "position": "ranged",
+    "attack_type": "st",
+    "speed": 1
+  },
+
+  "vaeks": {
+    "type": "unit",
+    "cost": 20,
+    "promotion_cost": 12,
+    "maxhp": 11,
+    "attack": 1,
+    "defence": 1,
+    "resist": 0,
+    "promoted_maxhp": 13,
+    "promoted_attack": 2,
+    "promoted_defence": 2,
+    "promoted_resist": 0,
+    "damage_type": "phys",
+    "position": "melee",
+    "attack_type": "st",
+    "speed": 2
+  },
+
+  "thoci": {
+    "type": "unit",
+    "cost": 28,
+    "promotion_cost": 12,
+    "maxhp": 8,
+    "attack": 1,
+    "defence": 0,
+    "resist": 25,
+    "promoted_maxhp": 9,
+    "promoted_attack": 2,
+    "promoted_defence": 1,
+    "promoted_resist": 25,
+    "damage_type": "arts",
+    "position": "ranged",
+    "attack_type": "aoe",
+    "speed": 1
+  }
+}
