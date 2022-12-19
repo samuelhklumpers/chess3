@@ -1,5 +1,6 @@
 import bisect
 import threading
+import time
 
 import tkinter as tk
 
@@ -29,6 +30,7 @@ class Ruleset:
         self.lock = threading.RLock()
 
         self.debug = True
+        self.timeout = 0.0
 
     def add_rule(self, rule, prio=1):  # 0 first forbidden/debug, -1 last forbidden/debug
         self.rules.setdefault(prio, []).append(rule)
@@ -66,12 +68,16 @@ class Ruleset:
             raise e
 
     def process(self, effect, args):
-        with self.lock:
-            self._process(effect, args)
+        try:
+            with self.lock:
+                self._process(effect, args)
+        except KeyboardInterrupt:
+            print("Interrupted")
 
     def _process(self, effect, args):
         if self.debug:
             print(effect, args)
+            time.sleep(self.timeout)
 
         views = self.watches.get(effect, []) + self.watches.get("all", [])
         views.sort()
@@ -84,7 +90,9 @@ class Ruleset:
 
                 self.process_all(consequences)
                 consequences = []
-
+            
+            if self.debug:
+                ... #print(rule)
             res = rule.process(self.game, effect, args)
 
             if res is not None:

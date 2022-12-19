@@ -10,12 +10,15 @@ import traceback
 import websockets
 
 from functools import partial
+from rules.ark.web import ArkWebSocketRule
+from server.ark_setup import setup_ark
 
 from server.server_rules import *
 from rules.chess_rules import *
 from rules.normal_chess_rules import *
 from rules.fairy_rules import *
 from rules.shogi_rules import *
+from structures.ark.struct import ArkPlayer
 from structures.shogi_structures import *
 from structures.chess_structures import *
 from rules.drawing_rules import *
@@ -194,6 +197,33 @@ def setup_chess(mode):
 
     return game
 
+def setup_mode(mode):
+    if mode in []:
+        return setup_chess(mode)
+    elif mode == "arkbruh":
+        return setup_ark()
+
+def calculate_player(mode, players):
+    if mode in []:
+        if len(players) == 0:
+            return "w"
+        elif len(players) == 1:
+            return "b"
+        else:
+            return "none"
+    elif mode == "arkbruh":
+        if len(players) == 0:
+            return ArkPlayer.DEFENDER
+        elif len(players) == 1:
+            return ArkPlayer.ATTACKER
+        else:
+            return "none"
+
+def make_socket_mode(game, mode, player, ws):
+    if mode in []:
+        return WebSocketRule(game, player, ws)
+    elif mode == "arkbruh":
+        return ArkWebSocketRule(game, player, ws)
 
 class GameServer:
     def __init__(self, port):
@@ -208,30 +238,26 @@ class GameServer:
 
     async def do_room(self, ws, mode, room_id, user_id):
         if room_id not in self.games:
-            chess = setup_chess(mode)
-            chess.ruleset.add_rule(CloseRoomRule(self, room_id))
-            self.games[room_id] = {"game": chess, "players": {}, "sockets": []}
+            game = setup_mode(mode)
+            game.ruleset.add_rule(CloseRoomRule(self, room_id))
+            self.games[room_id] = {"game": game, "players": {}, "sockets": []}
         room_data = self.games[room_id]
 
-        chess = room_data["game"]
+        game = room_data["game"]
         sockets = room_data["sockets"]
 
         sockets.append(ws)
 
         players = room_data["players"]
         if user_id in players:
-            colour = players[user_id]
+            player = players[user_id]
         else:
-            if len(players) == 0:
-                colour = "w"
-            elif len(players) == 1:
-                colour = "b"
-            else:
-                colour = "none"
-        players[user_id] = colour
+            player = calculate_player(mode, players)
+        players[user_id] = player
 
-        ws_rule = WebSocketRule(chess, colour, ws)
-        chess.ruleset.add_rule(ws_rule)
+        ws_rule = make_socket_mode(game, mode, player, ws)
+
+        game.ruleset.add_rule(ws_rule)
 
         await ws_rule.run()
 
@@ -258,6 +284,8 @@ class GameServer:
             room_id = room_id + "_" + mode
 
             await self.do_room(ws, mode, room_id, user_id)
+        except:
+            traceback.print_exc()
         finally:
             await ws.close()
 

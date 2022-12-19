@@ -20,6 +20,7 @@
                 <td class="fairychess button">Fairy</td>
                 <td class="shogi button">Shogi</td>
                 <td class="lineofchess button">Line of Sight (defunct)</td>
+                <td class="arkbruh button">Arkbruh</td>
             </tr>
         </table>
         <script>
@@ -27,6 +28,7 @@
                 fairy = document.querySelector('.fairychess'),
                 shogi = document.querySelector('.shogi'),
                 line = document.querySelector('.lineofchess'),
+                ark = document.querySelector('.arkbruh'),
                 room = document.querySelector('#roomform'),
                 user = document.querySelector('#userform');
 
@@ -44,6 +46,10 @@
 
             line.onclick = function (_) {
                 window.location.href = "/chess/game.html?room=" + room.value + "&mode=line&user=" + user.value;
+            };
+
+            ark.onclick = function (_) {
+                window.location.href = "/ark/game.html?room=" + room.value + "&user=" + user.value;
             };
         </script>
     </body>

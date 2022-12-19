@@ -247,7 +247,6 @@ class WebSocketRule(Rule):
             self.game.ruleset.remove_rule(self)
             self.game.process("disconnect", self.player)
 
-
 class ConnectSetupRule(Rule):
     def __init__(self, cfg):
         Rule.__init__(self, ["connect"])

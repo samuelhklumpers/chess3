@@ -7,6 +7,9 @@ class Rule:
     def __init__(self, watch: List[str] = None):
         self.watch = ["all"] if watch is None else watch
 
+    def __repr__(self) -> str:
+        return self.__class__.__name__
+
     def process(self, game: Game, effect: str, args):
         ...
 

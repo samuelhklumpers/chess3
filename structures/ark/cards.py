@@ -38,6 +38,11 @@ class Unit(Card):
     self.effect = 0
     self.stun   = 0
 
+  def __repr__(self) -> str:
+    rep = f"{self.name}(hp={self.hp}, energy={self.energy}, effect={self.effect}, stun={self.stun})"
+
+    return rep
+
 class CardFactory:
   def __init__(self, fn):
     self.fn = fn

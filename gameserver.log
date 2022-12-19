@@ -93,3 +93,55 @@ ERROR:asyncio:Task was destroyed but it is pending!
 task: <Task pending coro=<open_server.<locals>.set_responsive_task() done, defined at C:\Users\Samuel Klumpers\Desktop\Programming\Gui\Games\chess3\server\gameserver.py:295> wait_for=<Future pending cb=[<TaskWakeupMethWrapper object at 0x00000230440F0F18>()]> cb=[_chain_future.<locals>._call_set_state() at C:\Users\Samuel Klumpers\Desktop\Applications\Python\lib\asyncio\futures.py:355]>
 ERROR:asyncio:Task was destroyed but it is pending!
 task: <Task pending coro=<open_server.<locals>.set_responsive_task() done, defined at C:\Users\Samuel Klumpers\Desktop\Programming\Gui\Games\chess3\server\gameserver.py:295> wait_for=<Future pending cb=[<TaskWakeupMethWrapper object at 0x0000023044182408>()]> cb=[_chain_future.<locals>._call_set_state() at C:\Users\Samuel Klumpers\Desktop\Applications\Python\lib\asyncio\futures.py:355]>
+ERROR:websockets.server:Error in connection handler
+Traceback (most recent call last):
+  File "C:\Users\samue\AppData\Local\Programs\Python\Python39\lib\site-packages\websockets\legacy\server.py", line 293, in handler
+    await self.ws_handler(self, path)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 285, in accept
+    await self.do_room(ws, mode, room_id, user_id)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 240, in do_room
+    game = setup_mode(mode)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 203, in setup_mode
+    return setup_ark()
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\ark_setup.py", line 52, in setup_ark
+    web = [ArkWebSocketRule()]
+TypeError: __init__() missing 3 required positional arguments: 'game', 'player', and 'ws'
+ERROR:websockets.server:Error in connection handler
+Traceback (most recent call last):
+  File "C:\Users\samue\AppData\Local\Programs\Python\Python39\lib\site-packages\websockets\legacy\server.py", line 293, in handler
+    await self.ws_handler(self, path)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 285, in accept
+    await self.do_room(ws, mode, room_id, user_id)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 240, in do_room
+    game = setup_mode(mode)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 203, in setup_mode
+    return setup_ark()
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\ark_setup.py", line 52, in setup_ark
+    web = [ArkWebSocketRule()]
+TypeError: __init__() missing 3 required positional arguments: 'game', 'player', and 'ws'
+ERROR:websockets.server:Error in connection handler
+Traceback (most recent call last):
+  File "C:\Users\samue\AppData\Local\Programs\Python\Python39\lib\site-packages\websockets\legacy\server.py", line 293, in handler
+    await self.ws_handler(self, path)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 285, in accept
+    await self.do_room(ws, mode, room_id, user_id)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 240, in do_room
+    game = setup_mode(mode)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 203, in setup_mode
+    return setup_ark()
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\ark_setup.py", line 52, in setup_ark
+    web = [ArkWebSocketRule()]
+TypeError: __init__() missing 3 required positional arguments: 'game', 'player', and 'ws'
+ERROR:websockets.server:Error in connection handler
+Traceback (most recent call last):
+  File "C:\Users\samue\AppData\Local\Programs\Python\Python39\lib\site-packages\websockets\legacy\server.py", line 293, in handler
+    await self.ws_handler(self, path)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 286, in accept
+    await self.do_room(ws, mode, room_id, user_id)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 241, in do_room
+    game = setup_mode(mode)
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\gameserver.py", line 204, in setup_mode
+    return setup_ark()
+  File "C:\Users\samue\OneDrive\Desktop\programming\games\chess3\server\ark_setup.py", line 52, in setup_ark
+    web = [ArkWebSocketRule()]
+TypeError: __init__() missing 3 required positional arguments: 'game', 'player', and 'ws'

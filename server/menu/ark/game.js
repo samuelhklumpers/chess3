@@ -103,7 +103,7 @@ socket.onmessage = function (event) {
     process(data[0], data[1]);
 };
 socket.onopen = function (_) {
-    socket.send(JSON.stringify({"room": room, "mode": mode, "user": user}));
+    socket.send(JSON.stringify({"room": room, "mode": "arkbruh", "user": user}));
 };
 
 
@@ -150,4 +150,8 @@ function createBoard(n, m) {
             playfield[i].push(cell);
         }
     }
+}
+
+document.querySelector("#deck").onclick = function (_) {
+    socket.send(JSON.stringify(["draw", []]))
 }

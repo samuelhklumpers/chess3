@@ -2,7 +2,7 @@ from enum import Enum
 import random
 from typing import *
 
-from cards import *
+from structures.ark.cards import *
 
 
 class ArkTerrain(Enum):
@@ -28,6 +28,9 @@ class ArkTile:
     self.terrain = terrain
     self.cards   = []
 
+  def __iter__(self):
+    yield from self.cards
+
 class ArkTurn(Enum):
   ACT    = 0
   MOVE   = 1
@@ -52,9 +55,18 @@ class ArkHand:
   def add(self, card):
     self.cards.append(card)
 
+  def __iter__(self):
+    yield from self.cards
+
+  def __repr__(self) -> str:
+    return f"Hand{self.cards}"
+
 class ArkStack:
   def __init__(self, cards: List[Card]):
     self.cards = cards
+
+  def __iter__(self):
+    yield from self.cards
 
   def draw(self):
     if self.cards:
@@ -65,6 +77,9 @@ class ArkStack:
 class ArkBoard:
   def __init__(self, tiles: List[List[ArkTile]]):
     self.tiles = tiles
+
+  def __iter__(self):
+    yield from self.tiles
 
 class ArkField:
   def __init__(self, hands: Dict[ArkPlayer, ArkHand], stack: ArkStack, board: ArkBoard):
@@ -85,3 +100,13 @@ class ArkState:
     self.energy_valid   = False
 
     self.field = field
+
+  def has_valid(self, player: ArkPlayer, movetype: ArkTurn):
+    #print("has_valid", player, movetype)
+
+    if movetype == ArkTurn.ACT:
+      return True # probably
+      
+    # TODO check if e.g. there is a movable piece on the board
+
+    return False
