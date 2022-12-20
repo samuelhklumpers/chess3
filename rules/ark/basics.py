@@ -1,6 +1,6 @@
-from rules.rules import *
-from structures.ark.struct import *
-from structures.ark.cards import *
+from rules.rules import Rule
+from structures.ark.struct import ArkState, ArkTurn, ArkPhase, ArkPlayer, ArkTerrain
+#from structures.ark.cards
 
 
 class WinCheck(Rule):
@@ -142,3 +142,116 @@ class DrawCard(Rule):
         game.field.hands[card.owner].add(card)
 
         return [("drawn_card", [card]), ("gfx_update_hand", args)]
+
+class PlayUnit(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_unit"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ((onsuccess, onfail), (player, card_i, tile_c)) = args
+        
+        tile = game.field.board.get_tile(tile_c)
+        card = game.field.hands[player][card_i]
+            
+        if player == ArkPlayer.ATTACKER and tile.terrain != ArkTerrain.SPAWN:
+            return onfail
+        elif player == ArkPlayer.DEFENDER and tile.terrain not in [ArkTerrain.NORMAL, ArkTerrain.HIGH]:
+            return onfail
+            
+        if tile.terrain == ArkTerrain.HIGH and card.position not in ["ranged", "flying"]:
+            return onfail
+
+        if len(tile.cards) > 1:
+            return onfail
+
+        tile.cards.append(card)
+
+        # TODO push
+        
+        return onsuccess + [("gfx_update_tile", tile)]
+
+class TransactPlayUnit(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["transact_play_unit"])
+
+    def process(self, game: ArkState, effect: str, args):
+        (player, card_i, tile_c) = args
+
+        card = game.field.hands[player].cards.pop(card_i)
+        game.field.dp[player] -= card.cost
+
+        return [("gfx_update_hand", args), ("gfx_update_dp", args), ("played_unit", args)]
+
+class PlayedUnit(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["played_unit"])
+
+    def process(self, game: ArkState, effect: str, args):
+        # TODO
+
+        return [("gfx_update_hand", args), ("gfx_update_dp", args), ("played_unit", args)]
+    
+
+class PlayUnitFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_unit_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        (player, card_i, tile_c) = args
+        
+        if not (game.sub_turn == ArkTurn.ACT and player == game.turn):
+            return 
+        
+        if card_i >= len(game.field.hands[player]):
+            return
+
+        tile = game.field.board.get_tile(tile_c)
+        card = game.field.hands[player][card_i]
+
+        if tile and game.field.dp[player] > card.cost:
+            return [("play_unit", (([("transact_play_unit", args)], []), args))]
+                
+
+"""
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+        
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+        
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+        
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+        
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+        
+class PlayFromHand(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["play_from_hand"])
+
+    def process(self, game: ArkState, effect: str, args):
+        ...
+"""

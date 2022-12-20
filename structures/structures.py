@@ -1,6 +1,7 @@
 import bisect
 import threading
 import time
+import traceback
 
 import tkinter as tk
 
@@ -29,7 +30,7 @@ class Ruleset:
         self.watches = {"all": []}
         self.lock = threading.RLock()
 
-        self.debug = True
+        self.debug = False
         self.timeout = 0.0
 
     def add_rule(self, rule, prio=1):  # 0 first forbidden/debug, -1 last forbidden/debug
@@ -93,7 +94,11 @@ class Ruleset:
             
             if self.debug:
                 ... #print(rule)
-            res = rule.process(self.game, effect, args)
+
+            try:
+                res = rule.process(self.game, effect, args)
+            except:
+                traceback.print_exc()
 
             if res is not None:
                 res = list(res)

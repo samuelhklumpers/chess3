@@ -17,6 +17,11 @@ def setup_ark():
     hand = ArkHand([])
     hands[player] = hand
 
+  # dp 
+  dp = {}
+  for player in ArkPlayer:
+    dp[player] = 8
+      
   # drawing stack
   default_stack = jload(os.path.join(ARK_DATA_DIR, "default_stack.json"))
   cards = []
@@ -41,7 +46,7 @@ def setup_ark():
   board = ArkBoard(tiles)
 
   # field  
-  field = ArkField(hands, stack, board)
+  field = ArkField(hands, dp, stack, board)
 
   # setup game
   game = ArkState(field)
@@ -50,7 +55,8 @@ def setup_ark():
   ruleset = game.ruleset = Ruleset(game)
   
   web = []
-  rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), ActDrawCard(), DrawCard(), InitSubturn(), CanMoveCheck(), SkipSubturn()]
+  rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), ActDrawCard(), DrawCard(), InitSubturn(), CanMoveCheck(), SkipSubturn(),
+           PlayUnit(), TransactPlayUnit(), PlayUnitFromHand()]
   drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn()]
 
   ruleset.add_all(web)

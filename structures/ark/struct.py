@@ -1,8 +1,8 @@
 from enum import Enum
 import random
-from typing import *
+from typing import List, Dict
 
-from structures.ark.cards import *
+from structures.ark.cards import Card
 
 
 class ArkTerrain(Enum):
@@ -32,6 +32,8 @@ class ArkTile:
     yield from self.cards
 
 class ArkTurn(Enum):
+  ENERGY = -2
+  DEPLOY = -1
   ACT    = 0
   MOVE   = 1
   SKILL  = 2
@@ -55,6 +57,12 @@ class ArkHand:
   def add(self, card):
     self.cards.append(card)
 
+  def __getitem__(self, key):
+      return self.cards[key]
+
+  def __delitem__(self, key):
+      del self.cards[key]
+      
   def __iter__(self):
     yield from self.cards
 
@@ -75,15 +83,22 @@ class ArkStack:
       return card
 
 class ArkBoard:
-  def __init__(self, tiles: List[List[ArkTile]]):
-    self.tiles = tiles
+    def __init__(self, tiles: List[List[ArkTile]]):
+        self.tiles = tiles
 
-  def __iter__(self):
-    yield from self.tiles
+    def get_tile(self, coord):
+        try:
+            return self.tiles[coord[0]][coord[1]]
+        except:
+            return None
+      
+    def __iter__(self):
+        yield from self.tiles
 
 class ArkField:
-  def __init__(self, hands: Dict[ArkPlayer, ArkHand], stack: ArkStack, board: ArkBoard):
+  def __init__(self, hands: Dict[ArkPlayer, ArkHand], dp: Dict[ArkPlayer, int], stack: ArkStack, board: ArkBoard):
     self.hands = hands
+    self.dp    = dp
     self.stack = stack
     self.board = board
 
@@ -100,6 +115,9 @@ class ArkState:
     self.energy_valid   = False
 
     self.field = field
+
+    self.flag    = None
+    self.counter = 0
 
   def has_valid(self, player: ArkPlayer, movetype: ArkTurn):
     #print("has_valid", player, movetype)
