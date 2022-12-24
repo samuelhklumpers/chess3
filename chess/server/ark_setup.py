@@ -11,9 +11,10 @@ from chess.structures.ark.cards import CardFactory
 from chess.structures.structures import Ruleset
 from chess.utility.util import jload
 
-#from chess.server.server_rules import *
 from chess.rules.ark.basics import *
 from chess.rules.ark.drawing import *
+from chess.rules.ark.turns import *
+from chess.rules.ark.actions import *
 
 
 def setup_ark():
@@ -62,12 +63,18 @@ def setup_ark():
 
     web = []
     rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), ActDrawCard(), DrawCard(), InitSubturn(), CanMoveCheck(), SkipSubturn(),
-             PlayUnit(), TransactPlayUnit(), PlayUnitFromHand()]
-    drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn()]
+             PlaceUnit(), TransactPlayCard(), PlaceUnitFromHand()]
+    turn = [PassiveDPGain(), InitAction(), CountSubaction()]
+    action = [PromoteUnit(), PromoteCardRule()]
+    drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn(), UpdateDP(), UpdateTile(), UpdateSubact()]
+    init = [Init()]
 
     ruleset.add_all(web)
     ruleset.add_all(rules)
+    ruleset.add_all(turn)
     ruleset.add_all(drawing)
+    ruleset.add_all(action)
+    ruleset.add_all(init)
 
     ruleset.process("init", ())
 

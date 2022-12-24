@@ -3,6 +3,7 @@
 from chess.rules.rules import Rule
 from chess.structures.ark.struct import ArkState, ArkPlayer
 
+
 class Refresh(Rule):
     def __init__(self):
         Rule.__init__(self, watch=["init"])
@@ -35,9 +36,18 @@ class UpdateAct(Rule):
         Rule.__init__(self, watch=["gfx_update_act"])
 
     def process(self, game: ArkState, effect: str, args):
-        print("Acts remaining:", game.acts_remaining)
+        print("Acts remaining:", game.actions_remaining)
       
-        return [("send_update_act", ["all", game.acts_remaining])]
+        return [("send_update_act", ["all", game.actions_remaining])]
+
+class UpdateSubact(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["gfx_update_sub_act"])
+
+    def process(self, game: ArkState, effect: str, args):
+        print("Sub actions remaining:", game.sub_actions_remaining, game.action)
+      
+        return [("send_update_sub_act", ["all", game.sub_actions_remaining, game.action])]
 
 class UpdateDP(Rule):
     def __init__(self):
@@ -53,7 +63,17 @@ class UpdateTurn(Rule):
         Rule.__init__(self, watch=["gfx_update_turn"])
 
     def process(self, game: ArkState, effect: str, args):
-        print("Turn", game.turn_num, ":", game.turn, "/", game.sub_turn)
+        print("Turn", game.turn_num, ":", game.turn, "/", game.subturn)
       
-        return [("send_update_turn", ["all", game.turn_num, game.turn, game.sub_turn])]
+        return [("send_update_turn", ["all", game.turn_num, game.turn, game.subturn])]
 
+class UpdateTile(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["gfx_update_tile"])
+
+    def process(self, game: ArkState, effect: str, args):
+        print("Tile now looks like:", args[0])
+      
+        tile_info = tile_c = None
+
+        return [("send_update_tile", ["all", tile_info, tile_c])]

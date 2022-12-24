@@ -95,6 +95,7 @@ class Ruleset:
             if self.debug:
                 ... #print(rule)
 
+            res = None
             try:
                 res = rule.process(self.game, effect, args)
             except:
