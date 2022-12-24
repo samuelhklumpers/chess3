@@ -1,7 +1,7 @@
 from abc import ABC
 
-from utility.util import *
-from definitions import *
+from utility.util import jload
+from definitions import ARK_DATA_DIR
 
 import os
 

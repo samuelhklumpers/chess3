@@ -1,11 +1,13 @@
-from rules.ark.web import ArkWebSocketRule
-from structures.ark.struct import *
+import os
+
+from structures.ark.struct import ArkPlayer, ArkStack, ArkHand, ArkTile, ArkTerrain, ArkBoard, ArkField, ArkState
+from structures.ark.cards import CardFactory
+
+from structures.structures import Ruleset
+from utility.util import jload
+from definitions import ARK_DATA_DIR
+
 from server.server_rules import *
-
-from structures.structures import *
-from utility.util import *
-from definitions import *
-
 from rules.ark.basics import *
 from rules.ark.drawing import *
 

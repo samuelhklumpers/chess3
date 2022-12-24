@@ -1,7 +1,5 @@
 from rules.rules import Rule
-from structures.ark.struct import ArkState
-from structures.ark.cards import Card
-
+from structures.ark.struct import ArkState, ArkPlayer
 
 class Refresh(Rule):
     def __init__(self):
