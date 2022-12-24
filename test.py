@@ -1,4 +1,7 @@
-from server.ark_setup import *
+"""Test drawing cards"""
+
+from chess.server.ark_setup import setup_ark
+from chess.structures.ark.struct import ArkPlayer
 
 game = setup_ark()
 

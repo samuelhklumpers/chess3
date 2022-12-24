@@ -1,5 +1,7 @@
-from rules.rules import Rule
-from structures.ark.struct import ArkState, ArkPlayer
+"""The rules for displaying things for Arkbruh"""
+
+from chess.rules.rules import Rule
+from chess.structures.ark.struct import ArkState, ArkPlayer
 
 class Refresh(Rule):
     def __init__(self):

@@ -1,16 +1,18 @@
+"""Abstract rules"""
+
 from typing import List
+from abc import ABC, abstractmethod
 
-from structures.structures import *
 
-
-class Rule:
+class Rule(ABC):
     def __init__(self, watch: List[str] = None):
         self.watch = ["all"] if watch is None else watch
 
     def __repr__(self) -> str:
         return self.__class__.__name__
 
-    def process(self, game: Game, effect: str, args):
+    @abstractmethod
+    def process(self, game, effect: str, args):
         ...
 
 
@@ -20,7 +22,7 @@ class AnyRule(Rule):  # warning: ordering side effect
 
         self.rules = rules
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         for rule in self.rules:
             elist = rule.process(game, effect, args)
 
@@ -43,7 +45,7 @@ class IndicatorRule(Rule):
     def is_set(self):
         return self.triggered
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect in self.watch:
             self.set(args or True)
 

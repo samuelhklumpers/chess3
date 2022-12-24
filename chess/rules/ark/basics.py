@@ -1,5 +1,7 @@
-from rules.rules import Rule
-from structures.ark.struct import ArkState, ArkTurn, ArkPhase, ArkPlayer, ArkTerrain
+"""The basic rules for Arkbruh"""
+
+from chess.rules.rules import Rule
+from chess.structures.ark.struct import ArkState, ArkTurn, ArkPhase, ArkPlayer, ArkTerrain
 #from structures.ark.cards
 
 
@@ -175,7 +177,7 @@ class TransactPlayUnit(Rule):
         Rule.__init__(self, watch=["transact_play_unit"])
 
     def process(self, game: ArkState, effect: str, args):
-        (player, card_i, tile_c) = args
+        (player, card_i, _) = args
 
         card = game.field.hands[player].cards.pop(card_i)
         game.field.dp[player] -= card.cost
@@ -212,46 +214,44 @@ class PlayUnitFromHand(Rule):
             return [("play_unit", (([("transact_play_unit", args)], []), args))]
                 
 
-"""
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
         
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
         
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
         
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
         
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
         
-class PlayFromHand(Rule):
-    def __init__(self):
-        Rule.__init__(self, watch=["play_from_hand"])
+# class PlayFromHand(Rule):
+#     def __init__(self):
+#         Rule.__init__(self, watch=["play_from_hand"])
 
-    def process(self, game: ArkState, effect: str, args):
-        ...
-"""
+#     def process(self, game: ArkState, effect: str, args):
+#         ...
