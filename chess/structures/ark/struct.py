@@ -6,7 +6,6 @@ from typing import List, Dict
 
 from chess.structures.ark.cards import Card
 
-
 class ArkTerrain(Enum):
     VOID = 0
     NORMAL = 1
@@ -36,14 +35,23 @@ class ArkTile:
     def __iter__(self):
         yield from self.cards
 
+    def __repr__(self):
+        return "Tile[" + "\n".join(repr(c) for c in self) + "]"
+
 
 class ArkTurn(Enum):
-    ENERGY = -2
-    DEPLOY = -1
     ACT = 0
     MOVE = 1
     SKILL = 2
     COMBAT = 3
+
+
+class ArkAction(Enum):
+    DRAW = -1
+    NONE = 0
+    DEPLOY = 1
+    ENERGY = 2
+    RETREAT = 3
 
 
 class ArkPlayer(Enum):
@@ -122,15 +130,16 @@ class ArkState:
         self.phase = ArkPhase.EARLY
         self.turn_num = 0
         self.turn = ArkPlayer.DEFENDER
-        self.sub_turn = ArkTurn.ACT
+        self.subturn = ArkTurn.ACT
 
-        self.acts_remaining = 2
+        self.last_action = ArkAction.NONE
+        self.action = ArkAction.NONE
+        self.sub_actions_remaining = 0
+
+        self.actions_remaining = 2
         self.energy_valid = False
 
         self.field = field
-
-        self.flag = None
-        self.counter = 0
 
     def has_valid(self, player: ArkPlayer, movetype: ArkTurn):
         #print("has_valid", player, movetype)
@@ -141,3 +150,8 @@ class ArkState:
         # TODO check if e.g. there is a movable piece on the board
 
         return False
+
+    def get_energy_flux(self):
+        # TODO return the number of defenders on the board
+
+        return 0

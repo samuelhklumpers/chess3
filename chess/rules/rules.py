@@ -4,6 +4,9 @@ from typing import List
 from abc import ABC, abstractmethod
 
 
+def cause(effect, *args):
+    return [(effect, args)]
+
 class Rule(ABC):
     def __init__(self, watch: List[str] = None):
         self.watch = ["all"] if watch is None else watch
