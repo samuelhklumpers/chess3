@@ -1,43 +1,129 @@
 body {
-    font-family: "Courier New", sans-serif;
-    text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-#field-container {
-      height: 80vh; width: 80vh;
-      margin: auto;
-      position: relative;
+html * {
+  box-sizing: border-box;
 }
 
 #overlay {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 #status {
-    font-weight: bold;
-    font-size: 30px;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 table {
-    position: absolute;
-    border: 1px solid black;
-    border-collapse: collapse;
+  position: absolute;
+  border: 1px solid black;
+  border-collapse: collapse;
 }
-tr {height: 10vh;}
-td {width: 10vh; font-size: 40px; font-weight: bold}
 
-.square {height: 6vh; width: 6vh}
+.square {
+  height: 6vh;
+  width: 6vh;
+}
 
 .whitetile {
-    border: 1px solid black;
-    background-color: #eeb772;
-}
-.blacktile {
-    border: 1px solid black;
-    background-color: chocolate;
+  border: 1px solid black;
+  background-color: #eeb772;
 }
 
-.row, .column {
-    display: flex;
-    
+.blacktile {
+  border: 1px solid black;
+  background-color: chocolate;
 }
+
+div#field-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+div#field-container div#playerone-hand, div#field-container div#playertwo-hand, div#field-container div#middle {
+  display: flex;
+}
+div#field-container div#playerone-hand, div#field-container div#playertwo-hand {
+  height: 15%;
+  width: 40%;
+  border: solid 1px black;
+}
+div#field-container div#middle {
+  height: 60%;
+  width: 95%;
+  margin: auto;
+  border: solid 1px black;
+  flex-direction: row;
+  justify-content: space-between;
+}
+div#field-container div#middle div#card-browser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  border: solid 1px black;
+}
+div#field-container div#middle div#card-browser div#showcased-card {
+  aspect-ratio: 9/13;
+  width: 90%;
+  border: 1px solid black;
+}
+div#field-container div#middle div#field {
+  width: 65%;
+  border: solid 1px black;
+}
+div#field-container div#middle div#field div#playfield {
+  max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  overflow: auto;
+}
+div#field-container div#middle div#field div#playfield div.row {
+  display: flex;
+  flex-direction: column;
+}
+div#field-container div#middle div#field div#playfield div.row div.column {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid black;
+  min-width: 8rem;
+  min-height: 8rem;
+}
+div#field-container div#middle div#field div#playfield div.row div.column > div {
+  aspect-ratio: 9/13;
+  width: 45%;
+  border: 1px solid black;
+}
+div#field-container div#middle div#right-sidebar {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+div#field-container div#middle div#right-sidebar div.column {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+div#field-container div#middle div#right-sidebar div.column > div {
+  text-align: end;
+}
+div#field-container div#middle div#right-sidebar div#life-indicator, div#field-container div#middle div#right-sidebar div#turn-indicator, div#field-container div#middle div#right-sidebar div#stage-indicator, div#field-container div#middle div#right-sidebar div#player-indicator, div#field-container div#middle div#right-sidebar div#deck, div#field-container div#middle div#right-sidebar div#die {
+  border: 1px solid black;
+  width: 50%;
+}
+div#field-container div#playerone-hand {
+  margin: 0 auto 0 2.5%;
+}
+div#field-container div#playertwo-hand {
+  margin: 0 2.5% 0 auto;
+}
+
+/*# sourceMappingURL=gamestyle.css.map */

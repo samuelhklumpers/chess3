@@ -1,0 +1,162 @@
+$tile-size: 8rem;
+
+$main-field-size: 65%;
+$card-browser-size: 15%;
+$right-sidebar-size: 20%;
+
+// set to 0px for false, 1px for true
+$show-border: 1px;
+$show-example-cards: 1px;
+$show-field-cards: 1px;
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+html * {
+  box-sizing: border-box;
+}
+
+#overlay {
+  pointer-events: none;
+}
+
+#status {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+table {
+  position: absolute;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+// tr {
+//   height: 10vh;
+// }
+
+// td {
+//   width: 10vh; font-size: 40px; font-weight: bold
+// }
+
+.square {
+  height: 6vh; width: 6vh
+}
+
+.whitetile {
+  border: 1px solid black;
+  background-color: #eeb772;
+}
+
+.blacktile {
+  border: 1px solid black;
+  background-color: chocolate;
+}
+
+div#field-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  div#playerone-hand, div#playertwo-hand, div#middle {
+    display: flex;
+  }
+  
+  div#playerone-hand, div#playertwo-hand {
+    height: 15%;
+    width: 40%;
+    border: solid 1px black;
+  }
+
+  div#middle {
+    height: 60%;
+    width: 95%;
+    margin: auto;
+    border: solid $show-border black;
+    flex-direction: row;
+    justify-content: space-between;
+
+    div#card-browser {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: $card-browser-size;
+      border: solid $show-border black;
+
+      div#showcased-card {
+        aspect-ratio: 9 / 13;
+        width: 90%;
+        border: $show-example-cards solid black;
+      }
+    }
+
+    div#field {
+      width: $main-field-size;
+      border: solid 1px black;
+
+      div#playfield {
+        max-height: 100%;
+        max-width: 100%;
+        display: flex;
+        overflow: auto;
+
+        div.row {
+          display: flex;
+          flex-direction: column;
+
+          div.column {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: row;
+            border: 1px solid black;
+            min-width: $tile-size;
+            min-height: $tile-size;
+
+            > div {
+              aspect-ratio: 9 / 13;
+              width: 45%;
+              border: $show-field-cards solid black;
+            }
+          }
+        }
+      }
+    }
+
+    div#right-sidebar {
+      width: $right-sidebar-size;
+      // border: solid 1px black;
+      display: flex;
+      flex-direction: column;
+
+      div.column {
+        height: 100%;
+        width: 100%;
+        display: flex;
+
+        > div {
+          text-align: end;
+        }
+      }
+
+      div#life-indicator, div#turn-indicator, div#stage-indicator, div#player-indicator, div#deck, div#die {
+        border: $show-border solid black;
+        width: 50%;
+      }
+    }
+  }
+
+  div#playerone-hand {
+    margin: 0 auto 0 2.5%;
+  }
+
+  div#playertwo-hand {
+    margin: 0 2.5% 0 auto;
+  }
+}
