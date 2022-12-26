@@ -28,9 +28,12 @@ class ArkAttackType(Enum):
 
 
 class ArkTile:
-    def __init__(self, terrain=ArkTerrain.VOID):
+    def __init__(self, terrain=ArkTerrain.VOID, x=-1, y=-1):
         self.terrain = terrain
         self.cards = []
+        
+        self.x = x
+        self.y = y
 
     def __iter__(self):
         yield from self.cards
@@ -112,7 +115,8 @@ class ArkBoard:
             return None
 
     def __iter__(self):
-        yield from self.tiles
+        for row in self.tiles:
+            yield from row
 
 
 class ArkField:
@@ -138,6 +142,9 @@ class ArkState:
 
         self.actions_remaining = 2
         self.energy_valid = False
+
+        self.last_moved_unit = None
+        self.selected_unit = None
 
         self.field = field
 
