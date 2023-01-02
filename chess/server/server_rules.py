@@ -9,10 +9,10 @@ from typing import List
 
 import websockets
 
-from structures.colours import *
-from structures.chess_structures import *
-from structures.structures import *
-from rules.rules import *
+from chess.structures.colours import *
+from chess.structures.chess_structures import *
+from chess.structures.structures import *
+from chess.rules.rules import *
 
 
 class TurnFilterRule(Rule):

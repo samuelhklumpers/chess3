@@ -7,9 +7,9 @@ import itertools as itr
 
 from typing import Optional, Callable
 
-from structures.structures import *
-from utility.util import *
-from structures.colours import *
+from chess.structures.structures import *
+from chess.utility.util import *
+from chess.structures.colours import *
 
 
 class PieceCounter(tk.Frame):

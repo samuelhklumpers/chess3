@@ -6,6 +6,11 @@ const user = urlParams.get('user');
 displayfield = document.querySelector("#playfield");
 overfield = document.querySelector("#overlay");
 statusbox = document.querySelector("#status");
+
+turnIndicatorEl = document.querySelector("div#turn-indicator");
+stageIndicatorEl = document.querySelector("div#stage-indicator");
+playerIndicatorEl = document.querySelector("div#player-indicator");
+
 playfield = [];
 overlay = [];
 
@@ -68,6 +73,20 @@ function process(effect, args) {
             let draw_callback = _ => draw_text(cell, shape, colour);
             processWaitlist = processWaitlist.then(draw_callback);
         }
+    }
+    else if (effect === "send_update_act")
+    {
+
+    }
+    else if (effect === "send_update_hand")
+    {
+        console.log(JSON.stringify(args[0]));
+    }
+    else if (effect === "send_update_turn")
+    {
+        turnIndicatorEl.innerHTML = "Turn: " + args[0];
+        playerIndicatorEl.innerHTML = "Play: " + args[1];
+        stageIndicatorEl.innerHTML = "Stage: " + args[2];
     }
     else if (effect === "config")
     {

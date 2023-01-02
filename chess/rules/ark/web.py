@@ -1,9 +1,9 @@
 import asyncio
 import json
 import websockets
-from rules.rules import Rule
-from structures.ark.cards import Card
-from structures.ark.struct import ArkPlayer, ArkState, ArkTurn
+from chess.rules.rules import Rule
+from chess.structures.ark.cards import Card
+from chess.structures.ark.struct import ArkPlayer, ArkState, ArkTurn
 
 
 def encode_ark(o):

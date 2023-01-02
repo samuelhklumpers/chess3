@@ -10,21 +10,21 @@ import traceback
 import websockets
 
 from functools import partial
-from rules.ark.web import ArkWebSocketRule
-from server.ark_setup import setup_ark
+from chess.rules.ark.web import ArkWebSocketRule
+from chess.server.ark_setup import setup_ark
 
-from server.server_rules import *
-from rules.chess_rules import *
-from rules.normal_chess_rules import *
-from rules.fairy_rules import *
-from rules.shogi_rules import *
-from structures.ark.struct import ArkPlayer
-from structures.shogi_structures import *
-from structures.chess_structures import *
-from rules.drawing_rules import *
-from structures.structures import *
-from rules.rules import *
-from rules.line_of_sight_rules import *
+from chess.server.server_rules import *
+# from chess.rules.chess.chess_rules import *
+# from chess.rules.chess.normal_chess_rules import *
+# from chess.rules.chess.fairy_rules import *
+# from chess.rules.chess.shogi_rules import *
+from chess.structures.ark.struct import ArkPlayer
+# from chess.structures.shogi_structures import *
+# from chess.structures.chess_structures import *
+# from chess.rules.chess.drawing_rules import *
+from chess.structures.structures import *
+from chess.rules.rules import *
+# from chess.rules.chess.line_of_sight_rules import *
 
 
 logging.basicConfig(filename="gameserver.log", level=logging.WARNING)

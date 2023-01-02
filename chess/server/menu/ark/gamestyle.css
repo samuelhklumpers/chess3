@@ -50,7 +50,7 @@ div#field-container div#playerone-hand, div#field-container div#playertwo-hand, 
   display: flex;
 }
 div#field-container div#playerone-hand, div#field-container div#playertwo-hand {
-  height: 15%;
+  height: 18%;
   width: 40%;
   border: solid 1px black;
 }
@@ -94,8 +94,8 @@ div#field-container div#middle div#field div#playfield div.row div.column {
   align-items: center;
   flex-direction: row;
   border: 1px solid black;
-  min-width: 8rem;
-  min-height: 8rem;
+  min-width: 12rem;
+  min-height: 12rem;
 }
 div#field-container div#middle div#field div#playfield div.row div.column > div {
   aspect-ratio: 9/13;
@@ -113,7 +113,11 @@ div#field-container div#middle div#right-sidebar div.column {
   display: flex;
 }
 div#field-container div#middle div#right-sidebar div.column > div {
-  text-align: end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-size: 2vh;
 }
 div#field-container div#middle div#right-sidebar div#life-indicator, div#field-container div#middle div#right-sidebar div#turn-indicator, div#field-container div#middle div#right-sidebar div#stage-indicator, div#field-container div#middle div#right-sidebar div#player-indicator, div#field-container div#middle div#right-sidebar div#deck, div#field-container div#middle div#right-sidebar div#die {
   border: 1px solid black;
@@ -124,6 +128,106 @@ div#field-container div#playerone-hand {
 }
 div#field-container div#playertwo-hand {
   margin: 0 2.5% 0 auto;
+}
+div#field-container div#playertwo-hand div.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  aspect-ratio: 9/13;
+  border: 0.5vh solid black;
+}
+div#field-container div#playertwo-hand div.card.promoted {
+  border: 0.5vh solid transparent;
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
+}
+div#field-container div#playertwo-hand div.card.promoted div.middle img {
+  border: 0.25vh solid transparent;
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
+}
+div#field-container div#playertwo-hand div.card.defender div.top div.cost {
+  border-bottom: 0.25vh solid blue;
+  border-right: 0.25vh solid blue;
+}
+div#field-container div#playertwo-hand div.card.defender div.top div.speed {
+  border-bottom: 0.25vh solid blue;
+  border-left: 0.25vh solid blue;
+}
+div#field-container div#playertwo-hand div.card.defender div.top div.name {
+  color: blue;
+  border-bottom: 0.25vh solid blue;
+}
+div#field-container div#playertwo-hand div.card div.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1vh;
+}
+div#field-container div#playertwo-hand div.card div.top div.cost {
+  display: flex;
+  border-bottom: 0.25vh solid black;
+  border-right: 0.25vh solid black;
+}
+div#field-container div#playertwo-hand div.card div.top div.name {
+  display: flex;
+  border-bottom: 0.25vh solid black;
+}
+div#field-container div#playertwo-hand div.card div.top div.speed {
+  display: flex;
+  border-bottom: 0.25vh solid black;
+  border-left: 0.25vh solid black;
+}
+div#field-container div#playertwo-hand div.card.stunned div.middle {
+  position: relative;
+}
+div#field-container div#playertwo-hand div.card.stunned div.middle:after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  height: 127.27%;
+  border-left: 0.25vh solid #f581ff;
+  left: calc(50% - 0.25vh);
+  transform: rotate(45deg);
+}
+div#field-container div#playertwo-hand div.card.stunned div.middle:before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  height: 127.27%;
+  border-left: 0.25vh solid #f581ff;
+  left: calc(50% - 0.25vh);
+  transform: rotate(-45deg);
+}
+div#field-container div#playertwo-hand div.card.stunned div.middle div.stun-counter {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  font-size: 5vh;
+}
+div#field-container div#playertwo-hand div.card div.middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5vh;
+}
+div#field-container div#playertwo-hand div.card div.middle div.stun-counter {
+  display: none;
+}
+div#field-container div#playertwo-hand div.card div.middle img {
+  aspect-ratio: 1/1;
+  width: 9vh;
+  border: 0.25vh solid black;
+}
+div#field-container div#playertwo-hand div.card div.bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0.5vh;
+  height: 100%;
+}
+div#field-container div#playertwo-hand div.card div.bottom > div {
+  font-size: 1vh;
 }
 
 /*# sourceMappingURL=gamestyle.css.map */
