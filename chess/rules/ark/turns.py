@@ -58,6 +58,9 @@ class InitSubturn(Rule):
             game.actions_remaining = 2
             eff += cause("gfx_update_act")
 
+        if game.subturn == ArkTurn.MOVE:
+            return cause("init_move")
+
         return eff
 
 

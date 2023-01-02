@@ -15,6 +15,8 @@ from chess.rules.ark.basics import *
 from chess.rules.ark.drawing import *
 from chess.rules.ark.turns import *
 from chess.rules.ark.actions import *
+from chess.rules.ark.ui import *
+from chess.rules.ark.movement import *
 
 
 def setup_ark():
@@ -42,11 +44,11 @@ def setup_ark():
     width = height = 3
 
     tiles = []
-    for _ in range(width):
+    for x in range(width):
         tiles_ = []
 
-        for _ in range(height):
-            tiles_.append(ArkTile(ArkTerrain.NORMAL))
+        for y in range(height):
+            tiles_.append(ArkTile(ArkTerrain.NORMAL, x, y))
 
         tiles.append(tiles_)
 
@@ -64,13 +66,18 @@ def setup_ark():
     web = []
     rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), ActDrawCard(), DrawCard(), InitSubturn(), CanMoveCheck(), SkipSubturn(),
              PlaceUnit(), TransactPlayCard(), PlaceUnitFromHand()]
+    ui = [UserClickUnit(), UserClickTile()]
+    movement = [InitMove(), MoveUnit()]
     turn = [PassiveDPGain(), InitAction(), CountSubaction()]
     action = [PromoteUnit(), PromoteCardRule()]
-    drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn(), UpdateDP(), UpdateTile(), UpdateSubact()]
+    drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn(),
+               UpdateDP(), UpdateTile(), UpdateSubact()]
     init = [Init()]
 
     ruleset.add_all(web)
     ruleset.add_all(rules)
+    ruleset.add_all(ui)
+    ruleset.add_all(movement)
     ruleset.add_all(turn)
     ruleset.add_all(drawing)
     ruleset.add_all(action)
