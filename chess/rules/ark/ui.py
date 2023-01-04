@@ -4,7 +4,7 @@ from chess.structures.ark.struct import ArkState, ArkTurn, ArkPlayer, ArkTerrain
 
 class UserClickUnit(Rule):
     def __init__(self):
-        Rule.__init__("input_click_unit")
+        Rule.__init__(self, watch="input_click_unit")
 
     def process(self, game: ArkState, effect: str, args):
         (player, unit, tile) = args
@@ -16,7 +16,7 @@ class UserClickUnit(Rule):
 
 class UserClickTile(Rule):
     def __init__(self):
-        Rule.__init__("input_click_tile")
+        Rule.__init__(self, watch="input_click_tile")
 
     def process(self, game: ArkState, effect: str, args):
         (player, tile2) = args
