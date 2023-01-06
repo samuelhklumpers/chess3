@@ -94,7 +94,7 @@ class PlaceUnit(Rule):
 
         tile.cards.append(card)
 
-        # to do: pushing
+        # TODO: pushing
 
         return onsuccess + cause("gfx_update_tile", tile)
 
