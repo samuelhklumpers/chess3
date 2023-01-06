@@ -230,7 +230,7 @@ class GameServer:
         self.port = port
         self.games = {}
 
-    def run(self):
+    def run(self, stop):
         start_server = websockets.serve(self.accept, "", self.port)
 
         asyncio.get_event_loop().run_until_complete(start_server)
@@ -291,49 +291,64 @@ class GameServer:
 
 
 def thread_loop(port):
+    stop = threading.Event()
+
     responsive = threading.Event()
     responsive.set()
+
     error_times = []
 
     error_timeout = 10 * 60
     restart_timeout = 60
     max_errors = 4
 
-    while True:
-        for t in error_times.copy():
-            now = time.perf_counter()
-            if now - t > error_timeout:
-                error_times.remove(t)
+    try:
+        while True:
+            for t in error_times.copy():
+                now = time.perf_counter()
+                if now - t > error_timeout:
+                    error_times.remove(t)
 
-        if len(error_times) > max_errors:
-            logging.log(logging.WARNING, f"encountered {max_errors+1} errors in {error_timeout}s, exiting")
-            return
+            if len(error_times) > max_errors:
+                logging.log(logging.WARNING, f"encountered {max_errors+1} errors in {error_timeout}s, exiting")
+                return
 
-        th = threading.Thread(target=partial(open_server, port=port, responsive=responsive, errors=error_times))
-        th.start()
-        while th.is_alive() and responsive.is_set():
-            responsive.clear()
-            th.join(10)
+            th = threading.Thread(target=partial(open_server, port=port, stop=stop, responsive=responsive, errors=error_times))
+            th.start()
+            while th.is_alive() and responsive.is_set():
+                responsive.clear()
+                th.join(10)
 
-        if th.is_alive() and not responsive.is_set():
-            logging.log(logging.ERROR, "server thread became unresponsive, crashing")
+            if th.is_alive() and not responsive.is_set():
+                logging.log(logging.ERROR, "server thread became unresponsive, crashing")
+                os._exit(1)
+
+            time.sleep(restart_timeout)
+    except:
+        stop.set()
+        th.join(10)
+
+        if th.is_alive():
             os._exit(1)
 
-        time.sleep(restart_timeout)
 
 
-def open_server(port, responsive, errors):
+def open_server(port, stop, responsive, errors):
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     async def set_responsive_task():
         while True:
+            if stop.is_set():
+                asyncio.get_event_loop().stop()
+                break
+
             responsive.set()
-            await asyncio.sleep(5)
+            await asyncio.sleep(1)
 
     try:
         asyncio.run_coroutine_threadsafe(set_responsive_task(), asyncio.get_event_loop())
         gameserver = GameServer(port=port)
-        gameserver.run()
+        gameserver.run(stop)
     except Exception:
         traceback.print_exc()
         logging.error("game server encountered unexpected state", exc_info=sys.exc_info())
