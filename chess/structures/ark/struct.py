@@ -1,6 +1,7 @@
 """Basic datastructures for Arkbruh"""
 
 import random
+import functools
 from enum import Enum
 from typing import List, Dict
 
@@ -127,6 +128,12 @@ class ArkField:
         self.board = board
 
 
+#needs refactor probably
+def get_num_owned_cards(tile: ArkTile, player: ArkPlayer):
+    return len([c for c in tile.cards if c.owner == player])
+
+get_num_defender = functools.partial(get_num_owned_cards, player=ArkPlayer.DEFENDER)
+
 class ArkState:
     def __init__(self, field: ArkField):
         self.ruleset = None
@@ -159,6 +166,5 @@ class ArkState:
         return False
 
     def get_energy_flux(self):
-        # TODO return the number of defenders on the board
-
-        return 0
+        # return the number of defenders on the board
+        return sum(map(get_num_defender, self.field.board))

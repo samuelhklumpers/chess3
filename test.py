@@ -49,3 +49,9 @@ game.ruleset.process("try_draw_card", [ArkPlayer.DEFENDER])
 print()
 
 
+#temporary debugging for now 
+print("Board state")
+print(list(game.field.board))
+
+print("Check energy flux amount")
+print(game.get_energy_flux())
