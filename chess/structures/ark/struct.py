@@ -115,8 +115,11 @@ class ArkBoard:
         except:
             return None
 
-    def get_all_cards(self):
-        return [card for row in self.tiles for tile in row for card in tile]
+    def get_all_cards(self, player: ArkPlayer = None):
+        if player is not None:
+            return [card for tile in self for card in tile if card.owner == player]
+
+        return [card for tile in self for card in tile]
 
     def __iter__(self):
         for row in self.tiles:
@@ -160,11 +163,10 @@ class ArkState:
 
         # check if e.g. there is a movable piece on the board
         if movetype == ArkTurn.MOVE:
-            return True in [card.owner == player and card.movements_remaining > 0 for card in self.field.board.get_all_cards()]
+            return any([card.movements_remaining > 0 for card in self.field.board.get_all_cards(player=player)])
 
         return False
 
     def get_energy_flux(self):
         # return the number of defenders on the board
-        defender_cards = [card.owner == ArkPlayer.DEFENDER for card in self.field.board.get_all_cards()]
-        return len(defender_cards)
+        return len(self.field.board.get_all_cards(player=ArkPlayer.DEFENDER))
