@@ -116,10 +116,14 @@ class ArkBoard:
             return None
 
     def get_all_cards(self, player: ArkPlayer = None):
-        if player is not None:
-            return [card for tile in self for card in tile if card.owner == player]
 
-        return [card for tile in self for card in tile]
+        for tile in self:
+            for card in tile:
+                if ArkPlayer is not None:
+                    if card.owner == player:
+                        yield card
+                else:
+                    yield card
 
     def __iter__(self):
         for row in self.tiles:
@@ -169,4 +173,4 @@ class ArkState:
 
     def get_energy_flux(self):
         # return the number of defenders on the board
-        return len(self.field.board.get_all_cards(player=ArkPlayer.DEFENDER))
+        return sum(1 for _ in self.field.board.get_all_cards(player=ArkPlayer.DEFENDER))
