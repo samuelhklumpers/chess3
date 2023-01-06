@@ -28,21 +28,6 @@ class ArkAttackType(Enum):
     ST = 1
 
 
-class ArkTile:
-    def __init__(self, terrain=ArkTerrain.VOID, x=-1, y=-1):
-        self.terrain = terrain
-        self.cards = []
-        
-        self.x = x
-        self.y = y
-
-    def __iter__(self):
-        yield from self.cards
-
-    def __repr__(self):
-        return "Tile[" + "\n".join(repr(c) for c in self) + "]"
-
-
 class ArkTurn(Enum):
     ACT = 0
     MOVE = 1
@@ -70,6 +55,24 @@ class ArkPhase(Enum):
     LATE = 2
     END = 3  # end as in someone won
 
+
+class ArkTile:
+    def __init__(self, terrain=ArkTerrain.VOID, x=-1, y=-1):
+        self.terrain = terrain
+        self.cards = []
+        
+        self.x = x
+        self.y = y
+
+    def __iter__(self):
+        yield from self.cards
+
+    def __repr__(self):
+        return "Tile[" + "\n".join(repr(c) for c in self) + "]"
+
+    def get_num_owned_cards(self, player: ArkPlayer):
+        return len([c for c in self.cards if c.owner == player])
+        
 
 class ArkHand:
     def __init__(self, cards: List[Card]):
@@ -128,12 +131,6 @@ class ArkField:
         self.board = board
 
 
-#needs refactor probably
-def get_num_owned_cards(tile: ArkTile, player: ArkPlayer):
-    return len([c for c in tile.cards if c.owner == player])
-
-get_num_defender = functools.partial(get_num_owned_cards, player=ArkPlayer.DEFENDER)
-
 class ArkState:
     def __init__(self, field: ArkField):
         self.ruleset = None
@@ -167,4 +164,6 @@ class ArkState:
 
     def get_energy_flux(self):
         # return the number of defenders on the board
+        
+        get_num_defender = functools.partial(ArkTile.get_num_owned_cards, player=ArkPlayer.DEFENDER)
         return sum(map(get_num_defender, self.field.board))
