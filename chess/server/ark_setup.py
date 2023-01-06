@@ -64,7 +64,9 @@ def setup_ark():
     ruleset = game.ruleset = Ruleset(game)
 
     web = []
-    rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), ActDrawCard(), DrawCard(), InitSubturn(), CanMoveCheck(), SkipSubturn(),
+    rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), 
+             ActDrawCard(), ActGetEnergy(), ActGiveEnergy(), DrawCard(), GetEnergy(), GiveEnergy(),
+             InitSubturn(), CanMoveCheck(), SkipSubturn(),
              PlaceUnit(), TransactPlayCard(), PlaceUnitFromHand()]
     ui = [UserClickUnit(), UserClickTile()]
     movement = [InitMove(), MoveUnit()]
