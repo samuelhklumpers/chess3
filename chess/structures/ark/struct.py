@@ -1,7 +1,6 @@
 """Basic datastructures for Arkbruh"""
 
 import random
-import functools
 from enum import Enum
 from typing import List, Dict
 
@@ -70,8 +69,6 @@ class ArkTile:
     def __repr__(self):
         return "Tile[" + "\n".join(repr(c) for c in self) + "]"
 
-    def get_num_owned_cards(self, player: ArkPlayer):
-        return len([c for c in self.cards if c.owner == player])
         
 
 class ArkHand:
@@ -118,6 +115,9 @@ class ArkBoard:
         except:
             return None
 
+    def get_all_cards(self):
+        return [card for row in self.tiles for tile in row for card in tile]
+
     def __iter__(self):
         for row in self.tiles:
             yield from row
@@ -158,12 +158,13 @@ class ArkState:
         if movetype == ArkTurn.ACT:
             return True  # probably
 
-        # TODO check if e.g. there is a movable piece on the board
+        # check if e.g. there is a movable piece on the board
+        if movetype == ArkTurn.MOVE:
+            return True in [card.owner == player and card.movements_remaining > 0 for card in self.field.board.get_all_cards()]
 
         return False
 
     def get_energy_flux(self):
         # return the number of defenders on the board
-        
-        get_num_defender = functools.partial(ArkTile.get_num_owned_cards, player=ArkPlayer.DEFENDER)
-        return sum(map(get_num_defender, self.field.board))
+        defender_cards = [card.owner == ArkPlayer.DEFENDER for card in self.field.board.get_all_cards()]
+        return len(defender_cards)
