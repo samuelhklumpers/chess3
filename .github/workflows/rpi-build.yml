@@ -14,4 +14,15 @@ jobs:
     runs-on: [self-hosted]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Stop servers
+        run: |
+          systemctl --user stop chess3-web
+          systemctl --user stop chess3-engine
+
+      - name: Check out repository
+        uses: actions/checkout@v3
+      
+      - name: (Re)start servers
+        run: |
+          systemctl --user start chess3-engine
+          systemctl --user start chess3-web
