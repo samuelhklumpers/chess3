@@ -11,7 +11,7 @@ import websockets
 
 from chess.structures.colours import *
 from chess.structures.chess_structures import *
-from chess.structures.structures import *
+from chess.structures.ruleset import *
 from chess.rules.rules import *
 
 
@@ -155,7 +155,7 @@ class WinStopRule(Rule):
     def __init__(self):
         Rule.__init__(self, ["wins"])
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         return [("lock_turn", ()), ("stop", ())]
 
 
@@ -198,7 +198,7 @@ class SendFilterRule(Rule):
         else:
             return args
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "send":
             if self.filter == "all":
                 return [("send_raw", args)]
@@ -222,7 +222,7 @@ class WebSocketRule(Rule):
         self.ws = ws
         self.player = player
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "send_raw":
             out = json.dumps(args)
         elif effect == "send_filter" and self.player in args[1]:
@@ -265,7 +265,7 @@ class ConnectRedrawRule(Rule):
     def __init__(self):
         Rule.__init__(self, ["connect"])
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "connect":
             return [("set_filter", args), ("redraw", ()), ("set_filter", "all")]
 
@@ -276,7 +276,7 @@ class DrawReplaceRule(Rule):
 
         self.table = table
 
-    def process(self, game: Game, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "draw_piece_at":
             pos, shape, col = args
             shape = self.table.get(shape, shape)

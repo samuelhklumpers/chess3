@@ -22,7 +22,7 @@ from chess.structures.ark.struct import ArkPlayer
 # from chess.structures.shogi_structures import *
 # from chess.structures.chess_structures import *
 # from chess.rules.chess.drawing_rules import *
-from chess.structures.structures import *
+from chess.structures.ruleset import *
 from chess.rules.rules import *
 # from chess.rules.chess.line_of_sight_rules import *
 

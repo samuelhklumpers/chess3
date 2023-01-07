@@ -8,7 +8,7 @@ from chess.structures.ark.struct import (
     ArkPlayer, ArkStack, ArkHand, ArkTile, ArkTerrain, ArkBoard, ArkField, ArkState)
 from chess.structures.ark.cards import CardFactory
 
-from chess.structures.structures import Ruleset
+from chess.structures.ruleset import Ruleset
 from chess.utility.util import jload
 
 from chess.rules.ark.basics import *
