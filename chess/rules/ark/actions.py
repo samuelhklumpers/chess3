@@ -25,7 +25,7 @@ class ActGetEnergy(Rule):
     def process(self, game: ArkState, effect: str, args):
         energy = game.get_energy_flux()
         
-        if game.subturn == ArkTurn.ACT and game.action == ArkAction.NONE and args[0] == game.turn and game.phase == ArkPhase.EARLY and energy != 0:
+        if game.subturn == ArkTurn.ACT and game.action == ArkAction.NONE and args[0] == game.turn and game.phase == ArkPhase.EARLY:
             game.last_action = ArkAction.ENERGY
 
             return cause("get_energy", args[0], energy)

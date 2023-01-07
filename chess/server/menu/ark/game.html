@@ -229,12 +229,16 @@
                 </div>
                 <div id="right-sidebar">
                     <div class="column">
-                        <div id="life-indicator">LIVES</div>
-                        <div id="turn-indicator">WTF IS THIS IDK ANYMORE</div>
+                        <div id="life-indicator">[Lives: 3]</div>
+                        <div id="turn-indicator">[Turn: 0]</div>
                     </div>
                     <div class="column">
-                        <div id="stage-indicator">WHERE ARE WE</div>
-                        <div id="player-indicator"></div>
+                        <div id="stage-indicator">
+                            <div id="stage">[Stage: Actions]</div>
+                            <div id="actions-remaining">[Actions: 2]</div>
+                            <div id="subactions-remaining">[Energy Cubes: 5]</div>
+                        </div>
+                        <div id="player-indicator">[Play: Defender]</div>
                     </div>
                     <div class="column">
                         <div id="deck">DECK</div>
@@ -242,21 +246,30 @@
                     </div>
                 </div>
             </div>
-            <div id="playertwo-hand">
-                <div class="card">
-                    <div class="top">
-                        <div class="cost">22/12</div>
-                        <div class="name">Sitnomsor</div>
-                        <div class="speed">1</div>
-                    </div>
-                    <div class="middle">
-                        <div class="stun-counter">3</div>
-                        <img src="./images/sitnomsor.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <div class="health">10/20 Health</div>
-                        <div class="effect">2 Effect</div>
-                        <div class="energy">9/10 Energy</div>
+            <div class="bottom-field">
+                <div id="action-buttons">
+                    <button id="energy-button">Energy</button>
+                    <button id="deploy-button">Deploy/Promote</button>
+                    <button id="retreat-button">Retreat</button>
+                    <button id="discard-button">Discard</button>
+                    <button id="cancel-button">Skip</button>
+                </div>
+                <div id="playertwo-hand">
+                    <div class="card">
+                        <div class="top">
+                            <div class="cost">22/12</div>
+                            <div class="name">Sitnomsor</div>
+                            <div class="speed">1</div>
+                        </div>
+                        <div class="middle">
+                            <div class="stun-counter">3</div>
+                            <img src="./images/sitnomsor.png" alt="">
+                        </div>
+                        <div class="bottom">
+                            <div class="health">10/20 Health</div>
+                            <div class="effect">2 Effect</div>
+                            <div class="energy">9/10 Energy</div>
+                        </div>
                     </div>
                 </div>
             </div>

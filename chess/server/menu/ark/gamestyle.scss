@@ -69,13 +69,13 @@ div#field-container {
   }
   
   div#playerone-hand, div#playertwo-hand {
-    height: 18%;
+    height: 18vh;
     width: 40%;
     border: solid 1px black;
   }
 
   div#middle {
-    height: 60%;
+    height: 60vh;
     width: 95%;
     margin: auto;
     border: solid $show-border black;
@@ -142,10 +142,16 @@ div#field-container {
 
         > div {
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
+          text-align: center;
           text-transform: capitalize;
           font-size: 2vh;
+        }
+
+        div#stage-indicator {
+          flex-direction: column;
+          justify-content: space-around;
         }
       }
 
@@ -160,149 +166,165 @@ div#field-container {
     margin: 0 auto 0 2.5%;
   }
 
-  div#playertwo-hand {
-    margin: 0 2.5% 0 auto;
-
-    div.card {
+  div.bottom-field {
+    display: flex;
+    flex-direction: row;
+    div#action-buttons {
       display: flex;
-      flex-direction: column;
-      height: 100%;
-      aspect-ratio: 9 / 13;
-      border: 0.5vh solid black;
+      flex-direction: row;
+      width: 60%;
+      margin: 0 2.5% 0 2.5%;
+      column-gap: 1rem;
+      button {
+        height: 16vh;
+        width: 20%;
+        overflow-wrap: anywhere;
+      }
+    }
+    div#playertwo-hand {
+      margin: 0 2.5% 0 auto;
+    }
+  }
 
-      &.promoted {
-        border: 0.5vh solid transparent;
-        border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-        border-image-slice: 1;
+  div.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    aspect-ratio: 9 / 13;
+    border: 0.5vh solid black;
 
-        div.middle {
-          img {
-            border: 0.25vh solid transparent;
-            border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-            border-image-slice: 1;
-          }
+    &.promoted {
+      border: 0.5vh solid transparent;
+      border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+      border-image-slice: 1;
+
+      div.middle {
+        img {
+          border: 0.25vh solid transparent;
+          border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+          border-image-slice: 1;
         }
       }
+    }
 
-      &.defender {
-        div.top {
-          div.cost {
-            border-bottom: 0.25vh solid blue;
-            border-right: 0.25vh solid blue;
-          }
-  
-          div.speed {
-            border-bottom: 0.25vh solid blue;
-            border-left: 0.25vh solid blue;
-          }
-
-          div.name {
-            color: blue;
-            border-bottom: 0.25vh solid blue;
-          }
-        }
-      }
-      
+    &.defender {
       div.top {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        font-size: 1vh;
-
         div.cost {
-          display: flex;
-          border-bottom: 0.25vh solid black;
-          border-right: 0.25vh solid black;
-        }
-
-        div.name {
-          display: flex;
-          border-bottom: 0.25vh solid black;
-
+          border-bottom: 0.25vh solid blue;
+          border-right: 0.25vh solid blue;
         }
 
         div.speed {
-          display: flex;
-          border-bottom: 0.25vh solid black;
-          border-left: 0.25vh solid black;
+          border-bottom: 0.25vh solid blue;
+          border-left: 0.25vh solid blue;
+        }
+
+        div.name {
+          color: blue;
+          border-bottom: 0.25vh solid blue;
         }
       }
+    }
+    
+    div.top {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-size: 1vh;
 
-      &.stunned {
-        div.middle {
-          // img {
-            position: relative;
-            &:after {
-              content: "";
-              position: absolute;
-              z-index: 2;
-              height: 127.27%;
-              border-left: 0.25vh solid rgb(245, 129, 255);
-              left: calc(50% - 0.25vh);
-              transform: rotate(45deg);
-            }
-
-            &:before {
-              content: "";
-              position: absolute;
-              z-index: 2;
-              height: 127.27%;
-              border-left: 0.25vh solid rgb(245, 129, 255);
-              left: calc(50% - 0.25vh);
-              transform: rotate(-45deg);
-            }
-
-            div.stun-counter {
-              display: block;
-              position: absolute;
-              z-index: 3;
-              font-size: 5vh;
-
-            }
-
-          // }
-        }
+      div.cost {
+        display: flex;
+        border-bottom: 0.25vh solid black;
+        border-right: 0.25vh solid black;
       }
 
+      div.name {
+        display: flex;
+        border-bottom: 0.25vh solid black;
+
+      }
+
+      div.speed {
+        display: flex;
+        border-bottom: 0.25vh solid black;
+        border-left: 0.25vh solid black;
+      }
+    }
+
+    &.stunned {
       div.middle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0.5vh;
-        
-        div.stun-counter {
-          display: none;
-        }
+        // img {
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            height: 127.27%;
+            border-left: 0.25vh solid rgb(245, 129, 255);
+            left: calc(50% - 0.25vh);
+            transform: rotate(45deg);
+          }
 
-        img {
-          aspect-ratio: 1/1;
-          width: 9vh;
-          border: 0.25vh solid black;
-        }
+          &:before {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            height: 127.27%;
+            border-left: 0.25vh solid rgb(245, 129, 255);
+            left: calc(50% - 0.25vh);
+            transform: rotate(-45deg);
+          }
+
+          div.stun-counter {
+            display: block;
+            position: absolute;
+            z-index: 3;
+            font-size: 5vh;
+
+          }
+
+        // }
+      }
+    }
+
+    div.middle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0.5vh;
+      
+      div.stun-counter {
+        display: none;
       }
 
-      div.bottom {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin: 0.5vh;
-        height: 100%;
+      img {
+        aspect-ratio: 1/1;
+        width: 9vh;
+        border: 0.25vh solid black;
+      }
+    }
 
-        > div {
-          font-size: 1vh;
-        }
+    div.bottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0.5vh;
+      height: 100%;
 
-        div.health {
-          
-        }
+      > div {
+        font-size: 1vh;
+      }
 
-        div.effect {
-  
-        }
+      div.health {
+        
+      }
 
-        div.energy {
+      div.effect {
 
-        }
+      }
+
+      div.energy {
+
       }
     }
   }

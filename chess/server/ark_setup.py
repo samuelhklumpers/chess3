@@ -67,10 +67,10 @@ def setup_ark():
     rules = [WinCheck(), TurnNext(), SubturnNext(), DoCombat(), CountAction(), 
              ActDrawCard(), ActGetEnergy(), ActGiveEnergy(), DrawCard(), GetEnergy(), GiveEnergy(),
              InitSubturn(), CanMoveCheck(), SkipSubturn(),
-             PlaceUnit(), TransactPlayCard(), PlaceUnitFromHand()]
+             PlaceUnit(), TransactPlayCard(), PlaceUnitFromHand(), SkipAction()]
     ui = [UserClickUnit(), UserClickTile()]
     movement = [InitMove(), MoveUnit()]
-    turn = [PassiveDPGain(), InitAction(), CountSubaction()]
+    turn = [PassiveDPGain(), InitAction(), CountSubaction(), TrySkipSubturn()]
     action = [PromoteUnit(), PromoteCardRule()]
     drawing = [Refresh(), UpdateAct(), UpdateHand(), UpdateTurn(),
                UpdateDP(), UpdateTile(), UpdateSubact()]
@@ -84,6 +84,7 @@ def setup_ark():
     ruleset.add_all(drawing)
     ruleset.add_all(action)
     ruleset.add_all(init)
+    ruleset.debug = True
 
     ruleset.process("init", ())
 

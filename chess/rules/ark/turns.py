@@ -91,6 +91,16 @@ class InitAction(Rule):
 
             return cause("gfx_update_sub_act")
 
+class TrySkipSubturn(Rule):
+    """Tries to skip the subturn"""
+
+    def __init__(self):
+        Rule.__init__(self, watch=["try_skip_subturn"])
+
+    def process(self, game: ArkState, effect: str, args):
+        if (game.turn == args[0]):
+            return cause("skip_subturn")
+
 class SkipSubturn(Rule):
     """Allow the (forceful) skipping of subturns"""
 
@@ -99,7 +109,14 @@ class SkipSubturn(Rule):
 
     def process(self, game: ArkState, effect: str, args):
         if game.subturn == ArkTurn.ACT:
-            return cause("player_act_done")
+            if (game.action == ArkAction.NONE):
+                return cause("player_act_done")
+            elif (game.action == ArkAction.DEPLOY):
+                return cause("player_deploy_done")
+            elif (game.action == ArkAction.ENERGY):
+                return cause("player_energy_done")
+            elif (game.action == ArkAction.RETREAT):
+                return cause("player_retreat_done")
         elif game.subturn == ArkTurn.MOVE:
             return cause("player_move_done")
         elif game.subturn == ArkTurn.SKILL:
@@ -107,6 +124,13 @@ class SkipSubturn(Rule):
         elif game.subturn == ArkTurn.COMBAT:
             return cause("player_combat_done")
 
+class SkipAction(Rule):
+    def __init__(self):
+        Rule.__init__(self, watch=["player_deploy_done", "player_energy_done", "player_retreat_done"])
+    
+    def process(self, game: ArkState, effect: str, args):
+        game.action = ArkAction.NONE
+        return cause("player_subact_done") + cause("gfx_update_sub_act")
 
 class SubturnNext(Rule):
     """TODO someone has ended their subturn, what's next?"""

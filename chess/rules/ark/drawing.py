@@ -6,7 +6,7 @@ from chess.structures.ark.struct import ArkState, ArkPlayer
 
 class Refresh(Rule):
     def __init__(self):
-        Rule.__init__(self, watch=["init"])
+        Rule.__init__(self, watch=["init", "connect"])
 
     def process(self, game: ArkState, effect: str, args):
         eff = [("gfx_update_act", []), ("gfx_update_turn", [])]

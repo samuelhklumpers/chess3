@@ -8,7 +8,9 @@ overfield = document.querySelector("#overlay");
 statusbox = document.querySelector("#status");
 
 turnIndicatorEl = document.querySelector("div#turn-indicator");
-stageIndicatorEl = document.querySelector("div#stage-indicator");
+stageIndicatorEl = document.querySelector("div#stage");
+actionsRemainingIndicatorEl = document.querySelector("div#actions-remaining");
+subactionsRemainingIndicatorEl = document.querySelector("div#subactions-remaining");
 playerIndicatorEl = document.querySelector("div#player-indicator");
 
 playfield = [];
@@ -76,7 +78,7 @@ function process(effect, args) {
     }
     else if (effect === "send_update_act")
     {
-
+        actionsRemainingIndicatorEl.innerHTML = "Actions: " + args[0];
     }
     else if (effect === "send_update_hand")
     {
@@ -87,6 +89,13 @@ function process(effect, args) {
         turnIndicatorEl.innerHTML = "Turn: " + args[0];
         playerIndicatorEl.innerHTML = "Play: " + args[1];
         stageIndicatorEl.innerHTML = "Stage: " + args[2];
+    }
+    else if (effect === "send_update_sub_act")
+    {
+        if (args[1] == "none")
+            subactionsRemainingIndicatorEl.innerHTML = "";
+        else
+            subactionsRemainingIndicatorEl.innerHTML = `${args[1]}: ${args[0]}`;
     }
     else if (effect === "config")
     {
@@ -173,4 +182,12 @@ function createBoard(n, m) {
 
 document.querySelector("#deck").onclick = function (_) {
     socket.send(JSON.stringify(["draw", []]))
+}
+
+document.querySelector("#energy-button").onclick = function (_) {
+    socket.send(JSON.stringify(["try_get_energy", []]))
+}
+
+document.querySelector("#cancel-button").onclick = function (_) {
+    socket.send(JSON.stringify(["try_skip_subturn", []]))
 }
