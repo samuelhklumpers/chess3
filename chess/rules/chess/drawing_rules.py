@@ -106,6 +106,34 @@ class MarkValidRule(Rule):
             self.tags = []
 
 
+class MarkValidRule2(Rule):
+    def __init__(self, subruleset: Ruleset, move0):
+        Rule.__init__(self, watch=["selected", "unselected"])
+        self.subruleset = subruleset
+        self.move0 = move0
+
+        self.tags = []
+
+        self.success_indicator = IndicatorRule(["move_success"])
+        self.subruleset.add_rule(self.success_indicator)
+
+    def process(self, game, effect: str, args):
+        elist = []
+        if effect == "selected":
+            valid = list(search_valid(self, game, around=args))
+
+            for pos in valid:
+                self.tags += [pos]
+                elist += [("overlay", (pos, "x", HEXCOL["valid"]))]
+        elif effect == "unselected":
+            for tag in self.tags:
+                elist += [("overlay", (tag, "", HEXCOL["valid"]))]
+            self.tags = []
+
+        return elist
+
+
+
 class DrawSetPieceRule(Rule):
     def __init__(self):
         Rule.__init__(self, watch=["piece_set"])

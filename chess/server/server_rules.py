@@ -10,7 +10,7 @@ from typing import List
 import websockets
 
 from chess.structures.colours import *
-from chess.structures.chess_structures import *
+#from chess.structures.chess_structures import *
 from chess.structures.ruleset import *
 from chess.rules.rules import *
 
@@ -21,7 +21,7 @@ class TurnFilterRule(Rule):
 
         self.flow = flow
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         turn = game.get_turn()
         cons = self.flow[effect]
 
@@ -32,7 +32,7 @@ class RedrawRule2(Rule):
     def __init__(self):
         Rule.__init__(self, watch=["redraw"])
 
-    def process(self, game: Chess, effect, args):
+    def process(self, game, effect, args):
         if effect == "redraw":
             board = game.board
 
@@ -47,7 +47,7 @@ class MarkRule2(Rule):
     def __init__(self):
         Rule.__init__(self, watch=["mark"])
 
-    def process(self, game: Chess, effect, args):
+    def process(self, game, effect, args):
         if effect == "mark":
             pos, col = args
 
@@ -57,41 +57,13 @@ class MarkRule2(Rule):
             if piece:
                 return [("draw_piece_at_cmap", (pos, piece.shape, col))]
 
-
-class MarkValidRule2(Rule):
-    def __init__(self, subruleset: Ruleset, move0):
-        Rule.__init__(self, watch=["selected", "unselected"])
-        self.subruleset = subruleset
-        self.move0 = move0
-
-        self.tags = []
-
-        self.success_indicator = IndicatorRule(["move_success"])
-        self.subruleset.add_rule(self.success_indicator)
-
-    def process(self, game: Chess, effect: str, args):
-        elist = []
-        if effect == "selected":
-            valid = list(search_valid(self, game, around=args))
-
-            for pos in valid:
-                self.tags += [pos]
-                elist += [("overlay", (pos, "x", HEXCOL["valid"]))]
-        elif effect == "unselected":
-            for tag in self.tags:
-                elist += [("overlay", (tag, "", HEXCOL["valid"]))]
-            self.tags = []
-
-        return elist
-
-
 class StatusRule(Rule):
     def __init__(self):
         Rule.__init__(self, watch=["turn_changed", "connect", "wins", "turn_unlocked"])
 
         self.won = False
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if self.won:
             return
 
@@ -109,7 +81,7 @@ class PromoteStartRule(Rule):
         self.eligible = eligible
         self.promotions = promotions
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "moved":
             piece_id, start, end = args
 
@@ -135,7 +107,7 @@ class LockRule(Rule):
 
         self.turn = None
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "lock_turn":
             if not self.turn:
                 self.turn = game.get_turn()
@@ -166,7 +138,7 @@ class PromoteReadRule(Rule):
         self.promotions = promotions
         self.promoting = None
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "promoting":
             self.promoting = args
         elif effect == "readstring":
@@ -215,7 +187,7 @@ class SendFilterRule(Rule):
 
 
 class WebSocketRule(Rule):
-    def __init__(self, game: Chess, player: str, ws: websockets.WebSocketServerProtocol):
+    def __init__(self, game, player: str, ws: websockets.WebSocketServerProtocol):
         Rule.__init__(self, ["send_raw", "send_filter"])
 
         self.game = game
@@ -253,7 +225,7 @@ class ConnectSetupRule(Rule):
 
         self.config = cfg
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "connect":
             yield "set_filter", args
             for key, value in self.config.items():
@@ -288,7 +260,7 @@ class WebTranslateRule(Rule):
     def __init__(self):
         Rule.__init__(self, ["draw_piece_at2", "draw_piece", "overlay", "status", "askstring"])
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "draw_piece_at2":
             return [("send", ("draw_piece", args))]
         elif effect == "draw_piece":
@@ -316,7 +288,7 @@ class CloseRoomRule(Rule):
         self.server = server
         self.room = room
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         self.server.close_room(self.room)
 
 
@@ -336,13 +308,13 @@ class TimeoutRule(Rule):
 
             await asyncio.sleep(self.timeout)
 
-    def process(self, game: Chess, effect: str, args):
+    def process(self, game, effect: str, args):
         if effect == "init":
             asyncio.run_coroutine_threadsafe(self.poll_timeout(), asyncio.get_event_loop())
 
         self.timeout = time.perf_counter()
 
 
-__all__ = ["RedrawRule2", "MarkRule2", "MarkValidRule2", "StatusRule", "PromoteReadRule", "LockRule", "WinStopRule",
+__all__ = ["RedrawRule2", "MarkRule2", "StatusRule", "PromoteReadRule", "LockRule", "WinStopRule",
            "PromoteStartRule", "WebSocketRule", "ConnectRedrawRule", "WebTranslateRule", "CloseRoomRule", "TimeoutRule",
            "SendFilterRule", "DrawReplaceRule", "ConnectSetupRule", "TurnFilterRule"]
