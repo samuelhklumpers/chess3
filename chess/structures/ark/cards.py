@@ -45,7 +45,7 @@ class Unit(Card):
         self.movements_remaining = 0
 
     def __repr__(self) -> str:
-        rep = f"{self.name}(hp={self.hp}, energy={self.energy}, effect={self.effect}, stun={self.stun})"
+        rep = f"{self.name}(hp={self.hp}, energy={self.energy}, effect={self.effect}, stun={self.stun}, owned by={self.owner})"
 
         return rep
 

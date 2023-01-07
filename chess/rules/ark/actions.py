@@ -1,7 +1,7 @@
 """Rules for the Action subturn"""
 
 from chess.rules.rules import Rule, cause
-from chess.structures.ark.struct import ArkState, ArkTurn, ArkPlayer, ArkTerrain, ArkAction
+from chess.structures.ark.struct import ArkState, ArkTurn, ArkPlayer, ArkTerrain, ArkAction, ArkPhase
 
 
 class ActDrawCard(Rule):
@@ -16,6 +16,29 @@ class ActDrawCard(Rule):
 
             return cause("draw_card", *args) + cause("act_draw_card")
 
+class ActGetEnergy(Rule):
+    """Check if the player is allowed to get energy"""
+
+    def __init__(self):
+        Rule.__init__(self, watch=["try_get_energy"])
+
+    def process(self, game: ArkState, effect: str, args):
+        energy = game.get_energy_flux()
+        
+        if game.subturn == ArkTurn.ACT and game.action == ArkAction.NONE and args[0] == game.turn and game.phase == ArkPhase.EARLY and energy != 0:
+            game.last_action = ArkAction.ENERGY
+
+            return cause("get_energy", args[0], energy)
+
+class ActGiveEnergy(Rule):
+    """Check if the player is allowed to give energy to their unit"""
+
+    def __init__(self):
+        Rule.__init__(self, watch=["try_give_energy"])
+
+    def process(self, game: ArkState, effect: str, args):
+        if game.subturn == ArkTurn.ACT and game.action == ArkAction.ENERGY:
+            return cause("give_energy", args[1:])
 
 class PlaceUnitFromHand(Rule):
     """Check if the player is allowed to play a card from their hand"""
@@ -70,6 +93,30 @@ class DrawCard(Rule):
 
         return cause("drawn_card", card, *args) + cause("gfx_update_hand", *args)
 
+class GetEnergy(Rule):
+    """Get energy"""
+
+    def __init__(self):
+        Rule.__init__(self, watch=["get_energy"])
+    
+    def process(self, game: ArkState, effect: str, args):
+        game.sub_actions_remaining = args[1]
+        game.action = ArkAction.ENERGY
+
+        return cause("got_energy", *args) + cause("gfx_update_sub_act", *args)
+
+class GiveEnergy(Rule):
+    """Give energy to a unit"""
+
+    def __init__(self):
+        Rule.__init__(self, watch=["give_energy"])
+
+    def process(self, game: ArkState, effect: str, args):
+        (card, energy_amount) = args
+
+        card.energy += energy_amount
+        return cause("gave_energy", *args) + cause("gfx_update_unit", *args)
+
 
 class PlaceUnit(Rule):
     """Try to place a unit"""
@@ -94,7 +141,7 @@ class PlaceUnit(Rule):
 
         tile.cards.append(card)
 
-        # to do: pushing
+        # TODO: pushing
 
         return onsuccess + cause("gfx_update_tile", tile)
 

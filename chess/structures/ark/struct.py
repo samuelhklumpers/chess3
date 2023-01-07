@@ -27,21 +27,6 @@ class ArkAttackType(Enum):
     ST = 1
 
 
-class ArkTile:
-    def __init__(self, terrain=ArkTerrain.VOID, x=-1, y=-1):
-        self.terrain = terrain
-        self.cards = []
-        
-        self.x = x
-        self.y = y
-
-    def __iter__(self):
-        yield from self.cards
-
-    def __repr__(self):
-        return "Tile[" + "\n".join(repr(c) for c in self) + "]"
-
-
 class ArkTurn(Enum):
     ACT = 0
     MOVE = 1
@@ -69,6 +54,22 @@ class ArkPhase(Enum):
     LATE = 2
     END = 3  # end as in someone won
 
+
+class ArkTile:
+    def __init__(self, terrain=ArkTerrain.VOID, x=-1, y=-1):
+        self.terrain = terrain
+        self.cards = []
+        
+        self.x = x
+        self.y = y
+
+    def __iter__(self):
+        yield from self.cards
+
+    def __repr__(self):
+        return "Tile[" + "\n".join(repr(c) for c in self) + "]"
+
+        
 
 class ArkHand:
     def __init__(self, cards: List[Card]):
@@ -114,6 +115,16 @@ class ArkBoard:
         except:
             return None
 
+    def get_all_cards(self):
+        for tile in self:
+            for card in tile:
+                yield card
+
+    def get_owned_cards(self, player: ArkPlayer):
+        for card in self.get_all_cards():
+            if card.owner == player:
+                yield card
+
     def __iter__(self):
         for row in self.tiles:
             yield from row
@@ -154,11 +165,12 @@ class ArkState:
         if movetype == ArkTurn.ACT:
             return True  # probably
 
-        # TODO check if e.g. there is a movable piece on the board
+        # check if e.g. there is a movable piece on the board
+        if movetype == ArkTurn.MOVE:
+            return any([card.movements_remaining > 0 for card in self.field.board.get_owned_cards(player=player)])
 
         return False
 
     def get_energy_flux(self):
-        # TODO return the number of defenders on the board
-
-        return 0
+        # return the number of defenders on the board
+        return sum(1 for _ in self.field.board.get_owned_cards(player=ArkPlayer.DEFENDER))

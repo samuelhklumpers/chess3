@@ -4,8 +4,15 @@ from chess.server.ark_setup import setup_ark
 from chess.structures.ark.struct import ArkAction, ArkPhase, ArkPlayer
 
 game = setup_ark()
-game.phase = ArkPhase.LATE
 game.ruleset.debug = False
+
+# will fail because no defenders yet
+print("Try to get energy...")
+game.ruleset.process("try_get_energy", [ArkPlayer.DEFENDER])
+print()
+
+game.phase = ArkPhase.LATE
+
 
 print("Drawing some cards...")
 game.ruleset.process("try_draw_card", [ArkPlayer.DEFENDER])
@@ -47,5 +54,3 @@ print()
 print("Give up and draw a card instead")
 game.ruleset.process("try_draw_card", [ArkPlayer.DEFENDER])
 print()
-
-
